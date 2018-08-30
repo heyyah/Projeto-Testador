@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+	#table th, #table td {
+    	padding:0.8em;
+    	border: 1px solid;
+	}
+	#table th {
+    	background-color:#6699FF;
+    	font-weight:bold;
+	}
+	.colorir {
+    	background-color:#fcc;
+	}
+</style>
+<meta charset="ISO-8859-1">
+<title>Niveis de Acesso</title>
+<script src="jquery-3.2.1.js"></script>
+</head>
+<body>
+	<table id="table">
+		<tr>
+			<th>Nome</th>
+			<th>Leitura</th>
+			<th>Escrita</th>
+			<th>Execução</th>
+		</tr>
+	</table>
+	<script>
+			$.ajax("http://localhost:8080/asd/ws/niveisAcesso/select")
+        	.done(function(data) {
+        		console.log(data);
+        		for(var x = 0; x < data.length; x++) {
+        			$("#table").append(
+						"<tr><td>" + data[x]['nome'] + "</td>" +
+						"<td>" + data[x]['leitura'] + "</td>" +
+						"<td>" + data[x]['escrita'] + "</td>" +
+						"<td>" + data[x]['execucao'] + "</td>" +
+						"</tr>");
+					/*if(data[x]['leitura']) {
+						+"<td>Sim</td>"+
+					} else {
+						+"<td>Não</td>"+
+					}
+					if(data[x]['escrita']) {
+						+"<td>Sim</td>"+
+					} else {
+						+"<td>Não</td>"+
+					}
+					if(data[x]['execucao']) {
+						+"<td>Sim</td></tr>"+
+					} else {
+						+"<td>Não</td></tr>");
+					}*/
+        		}//disp.tipo.descricao==null?"Desconhecido":disp.tipo.descricao
+     		})
+        	.fail(function(data) {
+      	    	alert("Erro no acesso ao banco de dados!");
+       		});
+       		
+       		
+	</script>
+	<script>
+		var tr = $('table tr:not(:first-child)');
+tr.on('click', function () {
+    tr.not(this).removeClass('colorir');
+    $(this).toggleClass('colorir');
+});
+	</script>
+	
+	
+	<form>
+		<input type="button" value="Cadastrar" onclick="return cadastrar();"/>
+		<input type="button" value="Alterar" onclick="return alterar();"/>
+		<input type="button" value="Deletar" onclick="return deletar();"/>
+	</form>
+	
+	<script>
+		function cadastrar() {
+			window.location.href = "http://localhost:8080/asd/cadastroNivel.html"
+		}
+	</script>
+</body>
+</html>

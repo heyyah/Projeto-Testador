@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>My First REST Call</title>
+<script src="jquery-3.2.1.js"></script>
+</head>
+<body>
+	<form>
+		<input type="text" id="meuCep"/><input type="button" value="Buscar" onclick="procuraMeuCep()"/>
+		<br>
+		<input type="button" value="Enviar" onclick="return enviaMeuCep();"/>
+		<br>
+		<input type="button" value="Select" onclick="return sel();"/>
+		<br>
+		<input type="button" value="Delete" onclick="return del();"/>
+		<br>
+		<input type="button" value="Update" onclick="return upd();"/>
+		<br>
+	</form>
+	<table border="1">
+		<tr>
+			<td>Bairro</td>
+			<td><span id="theBairro"></span></td>
+		</tr>
+		<tr>
+			<td>Cep</td>
+			<td><span id="theCep"></span></td>
+		</tr>
+		<tr>
+			<td>Rua</td>
+			<td><span id="theRua"></span></td>
+		</tr>
+		<tr>
+			<td>Numero</td>
+			<td><span id="theNumero"></span></td>
+		</tr>
+		<tr>
+			<td>Uf</td>
+			<td><span id="theUf"></span></td>
+		</tr>
+	</table>
+	<script>
+	
+	var objeto = new Object();
+		function procuraMeuCep() {
+				var txtMeuCep = $("#meuCep").val();
+				var resptheCep = $("#theCep");
+				var resptheBairro = $("#theBairro");
+				var resptheRua = $("#theRua");
+				var resptheNumero = $("#theNumero");
+				var resptheUf = $("#theUf");
+				
+				$.ajax("http://yuri:8080/DevMediaWebServicesProject/webservice/ceprest/getCep/" + txtMeuCep)
+					.done(function(data) {
+						resptheCep.html(data.cep);
+						resptheBairro.html(data.bairro);
+						resptheRua.html(data.rua);
+						resptheNumero.html(data.numero);
+						resptheUf.html(data.uf);
+					})
+					.fail(function() {
+						alert("erro");
+					});
+		}
+		
+		function enviaMeuCep() {
+			console.log("teste");
+						$.ajax({
+							url: "http://localhost:8080/asd/ws/restws/insertUsuario",
+							type: "POST",
+							contentType: "application/json",
+							data: JSON.stringify({nome: "testenome", login: "testelogin", senha: "testesenha"}),
+							dataType: "json"
+						})
+					.done(function() {
+						alert("sucess");
+					})
+					.fail(function() {
+						alert("erro");
+					});
+		}
+		
+		function sel() {
+			console.log("teste select");
+			var list = null;
+				$.ajax({
+					url: "http://localhost:8080/asd/ws/restws/select",
+					type: "GET",
+					contentType: "application/json",
+					dataType: "json"
+				})
+				.done(function(data) {
+					console.log(data);
+					list = data;
+					console.log(list);
+					this.objeto = data[0];
+					alert("sucess");
+				})
+				.fail(function(data) {
+					list = data;
+					alert("erro");
+				});
+		}
+		
+		function del() {
+			this.objeto.id = 5;
+			this.objeto.login = "testelogin";
+			this.objeto.nome = "testenome";
+			this.objeto.senha = "testesenha";
+			
+			console.log("teste delete");
+			$.ajax({
+				url: "http://localhost:8080/asd/ws/restws/delete",
+				type: "POST",
+				contentType: "application/json",
+				data: JSON.stringify(this.objeto),
+				dataType: "json"
+				
+			});
+		}
+		
+		function upd() {
+			this.objeto.id = 7;
+			this.objeto.login = "testeupd";
+			this.objeto.nome = "testenome";
+			this.objeto.senha = "testesenha";
+			
+			console.log("teste upd");
+			$.ajax({
+				url: "http://localhost:8080/asd/ws/restws/update",
+				type: "POST",
+				contentType: "application/json",
+				data: JSON.stringify(this.objeto),
+				dataType: "json"
+				
+			});
+		}
+		
+		/*
+		function enviaMeuCep() {
+			console.log("teste");
+						$.ajax({
+							url: "localhost:8080/rest/ws/usuario/teste",
+							type: "POST",
+							contentType: "text/plain",
+							data: "oie gentem",
+							success: function() {
+                       alert("sucess");
+                   },
+                   error: function(xhr, msg, e) {
+                       alert(msg);
+                       console.log(xhr);
+                       console.log(msg);
+                       console.log(e);
+                   }
+						});
+		}
+		*/
+		
+		
+	</script>
+</body>
+</html>

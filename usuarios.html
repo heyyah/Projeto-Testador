@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+	#table th, #table td {
+    	padding:0.8em;
+    	border: 1px solid;
+	}
+	#table th {
+    	background-color:#6699FF;
+    	font-weight:bold;
+	}
+	.colorir {
+    	background-color:#fcc;
+	}
+</style>
+<meta charset="ISO-8859-1">
+<title>Usuários</title>
+<script src="jquery-3.2.1.js"></script>
+</head>
+<body>
+	<table id="table">
+		<tr>
+			<th>Nome</th>
+			<th>Login</th>
+			<th>Nivel de Acesso</th>
+		</tr>
+	</table>
+	<script>
+			$.ajax("http://localhost:8080/asd/ws/usuario/select")
+        	.done(function(data) {
+        		console.log(data);
+        		for(var x = 0; x < data.length; x++) {
+        			$("#table").append(
+						"<tr><td>" + data[x]['nome'] + "</td>" +
+						"<td>" + data[x]['login'] + "</td>" +
+						"<td>" + data[x]['nivelAcesso']['nome'] + "</td>" +
+						"</tr>");
+        		}
+     		})
+        	.fail(function(data) {
+      	    	alert("Erro no acesso ao banco de dados!");
+       		});
+       		
+       		
+	</script>
+	<script>
+		var tr = $('table tr:not(:first-child)');
+tr.on('click', function () {
+    tr.not(this).removeClass('colorir');
+    $(this).toggleClass('colorir');
+});
+	</script>
+	
+	
+	<form>
+		<input type="button" value="Cadastrar" onclick="return cadastrar();"/>
+		<input type="button" value="Alterar" onclick="return alterar();"/>
+		<input type="button" value="Deletar" onclick="return deletar();"/>
+	</form>
+	
+	<script>
+		function cadastrar() {
+			window.location.href = "http://localhost:8080/asd/cadastroUsuario.html"
+		}
+	</script>
+</body>
+</html>

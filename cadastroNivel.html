@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Cadastro de Nivel de Acesso</title>
+<script src="jquery-3.2.1.js"></script>
+</head>
+<body>
+	<form>
+		<label>Nome: </label>
+		<input type="text" id="nome"/>
+		<br>
+		<input type="checkbox" id="leitura">Leitura<br>
+		<input type="checkbox" id="escrita">Escrita<br>
+		<input type="checkbox" id="execucao">Execução<br>
+		<br>
+		<input type="button" value="Salvar" onclick="return salvar();"/>
+		<input type="button" value="Voltar" onclick="return voltar();"/>
+	</form>
+	
+	<script>
+	function salvar() {
+	
+		var obj = new Object();
+		obj.nome = $("#nome").val();
+		obj.leitura = $("#leitura")[0].checked;
+		obj.escrita = $("#escrita")[0].checked;
+		obj.execucao = $("#execucao")[0].checked;
+		console.log(obj);
+		
+		$.ajax({
+			url: "http://localhost:8080/asd/ws/niveisAcesso/insert",
+			type: "POST",
+			contentType: "application/json",
+			data: JSON.stringify(obj),
+			dataType: "json"
+		})
+		.done(function() {
+			alert("sucess");
+			})
+		.fail(function(data) {
+			console.log(data);
+			alert("erro");
+			});
+		}
+		
+		function voltar() {
+			window.location.href = "http://localhost:8080/asd/niveisAcesso.html"
+		}
+	</script>
+</body>
+</html>
