@@ -15,11 +15,11 @@
 	}
 </style>
 <meta charset="ISO-8859-1">
-<title>Usu�rios</title>
+<title>Usuários</title>
 <script src="jquery-3.2.1.js"></script>
 </head>
 <body>
-	<table id="table">
+	<table id="table" onclick="return clickTable()">
 		<tr>
 			<th>Nome</th>
 			<th>Login</th>
@@ -27,7 +27,7 @@
 		</tr>
 	</table>
 	<script>
-			$.ajax("http://localhost:8080/asd/ws/usuario/select")
+			/*$.ajax("http://localhost:8080/asd/ws/usuario/select")
         	.done(function(data) {
         		console.log(data);
         		for(var x = 0; x < data.length; x++) {
@@ -40,9 +40,34 @@
      		})
         	.fail(function(data) {
       	    	alert("Erro no acesso ao banco de dados!");
-       		});
+       		});*/
        		
-       		
+			usuarios = [];
+			var usuario = new Object();
+			usuario.nome = "Alberto";
+			usuario.login = "alberto";
+			usuario.nivelAcesso = "Administrador";
+			usuarios.push(usuario);
+			usuario = {};
+			usuario.nome = "Bertoldo";
+			usuario.login = "bert";
+			usuario.nivelAcesso = "Gerente";
+			usuarios.push(usuario);
+			usuario = {};
+			usuario.nome = "Cassio";
+			usuario.login = "cas";
+			usuario.nivelAcesso = "Peão";
+			usuarios.push(usuario);
+			
+			console.log(usuarios);
+       		for(var x = 0; x < usuarios.length; x++) {
+        			$("#table").append(
+					
+						"<tr><td>" + usuarios[x].nome + "</td>" +
+						"<td>" + usuarios[x].login + "</td>" +
+						"<td>" + usuarios[x].nivelAcesso + "</td>" +
+						"</tr>");
+        		}
 	</script>
 	<script>
 		var tr = $('table tr:not(:first-child)');
@@ -61,7 +86,16 @@ tr.on('click', function () {
 	
 	<script>
 		function cadastrar() {
-			window.location.href = "http://localhost:8080/asd/cadastroUsuario.html"
+			window.location.href = "http://localhost:8080/asd/cadastroUsuario.html";
+		}
+	</script>
+	
+	<script>
+		function alterar() {
+			var table = document.getElementById("table");
+			var tableRow = table.getElementsByClassName("colorir")[0].rowIndex;
+			console.log(tableRow); //Linha na qual está o objeto
+			console.log(usuarios[tableRow - 1]); //Objeto a ser alterado
 		}
 	</script>
 </body>
