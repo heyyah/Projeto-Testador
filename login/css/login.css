@@ -69,7 +69,7 @@ input[type="text"],input[type="password"]{
   color:#555;
 }
 
-input[type="submit"]{
+input[type="button"]{
   width:100%;
   background:#3399cc;
   border:0;
@@ -82,6 +82,6 @@ input[type="submit"]{
   -webkit-transition:background .3s;
 }
 
-input[type="submit"]:hover{
+input[type="button"]:hover{
   background:#2288bb;
 }
